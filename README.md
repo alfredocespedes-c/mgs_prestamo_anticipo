@@ -39,3 +39,22 @@ Luego hacer push a main.
 - Se eliminó el autofoco inicial del campo Persona.
 - Se reforzó la prevención del autocompletado propio del navegador.
 - Si se borra todo el texto, la lista desaparece inmediatamente.
+
+## Fix v0.4.3 — desplegable Persona
+Se agregó una segunda condición independiente (`hasTyped`).
+
+La lista solo se crea cuando:
+1. el usuario realmente escribió en el campo; y
+2. existe al menos 1 carácter no vacío.
+
+Al cargar Nuevo movimiento:
+- `query = ""`
+- `hasTyped = false`
+- no existe lista en el DOM.
+
+Al seleccionar una persona:
+- se completa el nombre;
+- `hasTyped` vuelve a `false`;
+- la lista se cierra.
+
+La interfaz muestra `v0.4.3` debajo de la navegación para comprobar que GitHub Pages publicó la versión correcta.

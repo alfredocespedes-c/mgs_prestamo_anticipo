@@ -1,4 +1,5 @@
-persona_id;rut;nombre;empresa;estado
-P001;13.066.599-3;Paulina Acuña Campos;MGS Repuestos;Activo
-P002;;Mauricio Alvear Alfaro;MGS Repuestos;Activo
-P003;;Cesar Gonzalez Lopez;Floma SPA;Activo
+persona_id;rut;nombre;empresa;estado;fecha_alta
+P001;13.066.599-3;Paulina Acuña Campos;MGS Repuestos;Activo;2026-08-01
+P002;;Mauricio Alvear Alfaro;MGS Repuestos;Activo;2026-08-01
+P003;;Luis Alarcon Gutierrez;MGS Repuestos;Activo;2026-08-01
+P004;;Cesar Gonzalez Lopez;Floma SPA;Activo;2026-08-01

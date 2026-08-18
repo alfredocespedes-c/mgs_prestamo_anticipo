@@ -1,14 +1,13 @@
 {
-  "name": "cuenta-corriente-local",
-  "version": "0.2.1",
+  "name": "sistema-prestamos-anticipo",
+  "version": "0.3.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "node server/index.js",
     "client": "vite --host 127.0.0.1",
-    "build": "vite build",
-    "build:pages": "vite build --mode github-pages"
+    "build": "vite build"
   },
   "dependencies": {
     "cors": "^2.8.5",

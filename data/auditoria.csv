@@ -1,3 +1,1 @@
 auditoria_id;fecha_hora;usuario;accion;entidad;entidad_id;detalle
-A0001;2026-08-17T10:00:00;local;CREACION;movimiento;M0001;Carga inicial de maqueta
-A0002;2026-08-17T10:00:00;local;CREACION;persona;P001;Carga inicial de maqueta

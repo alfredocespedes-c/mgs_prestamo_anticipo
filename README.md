@@ -1,4 +1,4 @@
-# Sistema Préstamos/Anticipo v0.4
+# Sistema Préstamos/Anticipo v0.4.1
 
 ## Cambios principales
 - Página inicial: Personal.
@@ -31,3 +31,8 @@ Abrir http://127.0.0.1:5173
 ## GitHub Pages
 Settings → Pages → Source → GitHub Actions.
 Luego hacer push a main.
+
+## Ajuste v0.4.1
+- El desplegable de búsqueda de personas no aparece al entrar al campo.
+- Solo se muestra después de escribir al menos 1 carácter.
+- Si se borra todo el texto, el listado desaparece automáticamente.

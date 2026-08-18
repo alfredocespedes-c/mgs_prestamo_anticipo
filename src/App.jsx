@@ -148,7 +148,7 @@ function NewMovement({people,done}) {
   useEffect(()=>{firstRef.current?.focus()},[]);
   const matches=useMemo(()=>{
     const q=query.trim().toLowerCase();
-    if(!q) return people.slice(0,8);
+    if(!q) return [];
     return people.filter(p=>`${p.nombre} ${p.rut} ${p.empresa}`.toLowerCase().includes(q)).slice(0,8);
   },[people,query]);
 
@@ -185,13 +185,19 @@ function NewMovement({people,done}) {
           autoComplete="off"
           value={query}
           placeholder="Empieza a escribir el nombre..."
-          onFocus={()=>setOpen(true)}
-          onChange={e=>{setQuery(e.target.value);setF({...f,persona_id:""});setOpen(true);setActiveIndex(0)}}
+          onFocus={()=>{ if(query.trim().length>0) setOpen(true) }}
+          onChange={e=>{
+            const value=e.target.value;
+            setQuery(value);
+            setF({...f,persona_id:""});
+            setOpen(value.trim().length>0);
+            setActiveIndex(0);
+          }}
           onKeyDown={keyDown}
           aria-autocomplete="list"
           aria-expanded={open}
         />
-        {open && <div className="suggestions" role="listbox">
+        {open && query.trim().length > 0 && <div className="suggestions" role="listbox">
           {matches.length ? matches.map((p,i)=><button
             key={p.persona_id}
             type="button"

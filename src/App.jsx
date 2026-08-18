@@ -137,15 +137,12 @@ export default function App() {
 
 function NewMovement({people,done}) {
   const [query,setQuery]=useState("");
-  const [open,setOpen]=useState(false);
   const [activeIndex,setActiveIndex]=useState(0);
-  const firstRef=useRef(null);
   const [f,setF]=useState({
     persona_id:"",fecha:today,tipo:"Anticipo",concepto:"",monto:"",
     medio_pago:"Transferencia",cuota_actual:"",cuotas_total:"",observacion:""
   });
 
-  useEffect(()=>{firstRef.current?.focus()},[]);
   const matches=useMemo(()=>{
     const q=query.trim().toLowerCase();
     if(!q) return [];
@@ -155,16 +152,14 @@ function NewMovement({people,done}) {
   const choose=p=>{
     setF({...f,persona_id:p.persona_id});
     setQuery(p.nombre);
-    setOpen(false);
     setActiveIndex(0);
   };
 
   const keyDown=e=>{
-    if(!open || !matches.length) return;
+    if(query.trim().length < 1 || !matches.length) return;
     if(e.key==="ArrowDown"){e.preventDefault();setActiveIndex(i=>(i+1)%matches.length)}
     if(e.key==="ArrowUp"){e.preventDefault();setActiveIndex(i=>(i-1+matches.length)%matches.length)}
     if(e.key==="Enter"){e.preventDefault();choose(matches[activeIndex])}
-    if(e.key==="Escape"){setOpen(false)}
   };
 
   const submit=async e=>{
@@ -180,24 +175,25 @@ function NewMovement({people,done}) {
       <div className="form-row full autocomplete">
         <label htmlFor="persona-search">Persona</label>
         <input
-          ref={firstRef}
           id="persona-search"
-          autoComplete="off"
+          name="persona_busqueda_manual"
+          autoComplete="new-password"
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck={false}
           value={query}
           placeholder="Empieza a escribir el nombre..."
-          onFocus={()=>{ if(query.trim().length>0) setOpen(true) }}
           onChange={e=>{
             const value=e.target.value;
             setQuery(value);
             setF({...f,persona_id:""});
-            setOpen(value.trim().length>0);
             setActiveIndex(0);
           }}
           onKeyDown={keyDown}
           aria-autocomplete="list"
-          aria-expanded={open}
+          aria-expanded={query.trim().length >= 1}
         />
-        {open && query.trim().length > 0 && <div className="suggestions" role="listbox">
+        {query.trim().length >= 1 && <div className="suggestions" role="listbox">
           {matches.length ? matches.map((p,i)=><button
             key={p.persona_id}
             type="button"

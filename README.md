@@ -1,4 +1,4 @@
-# Sistema Préstamos/Anticipo v0.4.1
+# Sistema Préstamos/Anticipo v0.4
 
 ## Cambios principales
 - Página inicial: Personal.
@@ -32,7 +32,10 @@ Abrir http://127.0.0.1:5173
 Settings → Pages → Source → GitHub Actions.
 Luego hacer push a main.
 
-## Ajuste v0.4.1
-- El desplegable de búsqueda de personas no aparece al entrar al campo.
-- Solo se muestra después de escribir al menos 1 carácter.
-- Si se borra todo el texto, el listado desaparece automáticamente.
+## Fix v0.4.2 — búsqueda de persona
+- La lista NO se muestra al cargar la vista.
+- La lista NO se muestra solo por hacer foco en el campo.
+- Solo se renderiza cuando `query.trim().length >= 1`.
+- Se eliminó el autofoco inicial del campo Persona.
+- Se reforzó la prevención del autocompletado propio del navegador.
+- Si se borra todo el texto, la lista desaparece inmediatamente.

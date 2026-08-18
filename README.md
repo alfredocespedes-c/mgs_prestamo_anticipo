@@ -1,36 +1,33 @@
-# Sistema Préstamos/Anticipo v0.3.1
+# Sistema Préstamos/Anticipo v0.4
 
-## Navegación
-- Nuevo movimiento
-- Personal
-- Administración
+## Cambios principales
+- Página inicial: Personal.
+- Navegación: Personal → Nuevo movimiento → Administración.
+- Autocompletado de persona al registrar movimiento.
+  - Escribir filtra la lista.
+  - Flecha arriba/abajo navega.
+  - Enter selecciona.
+  - Escape cierra.
+- Flujo de teclado optimizado con Tab en el formulario.
+- Reportes XLSX:
+  - Con persona filtrada: detalle individual.
+  - Sin persona: hoja Resumen + una hoja de detalle por cada persona del resultado.
+  - Respeta mes y tipo de movimiento filtrados.
+- Anticipo, Préstamo y Descuento mantienen colores distintos.
+- GitHub Pages: usa localStorage.
+- Local: usa Node.js + CSV.
 
-## Ejecutar localmente
+## Por qué XLSX y no CSV para el reporte
+CSV solo puede representar una tabla y no soporta múltiples hojas. XLSX permite crear una hoja Resumen y una hoja independiente por persona.
+
+## Ejecutar local
 ```bash
 npm install
 npm run dev
 ```
 
-Abrir `http://127.0.0.1:5173`.
-
-En local, React consume Node/Express en `127.0.0.1:3001` y Node escribe los CSV de `data/`.
+Abrir http://127.0.0.1:5173
 
 ## GitHub Pages
-La versión incluye `.github/workflows/deploy-pages.yml` y el script:
-
-```bash
-npm run build:pages
-```
-
-En GitHub: **Settings → Pages → Source → GitHub Actions**. Cada push a `main` compila y publica la interfaz.
-
-### Modo Pages
-GitHub Pages no ejecuta Node. Para que la maqueta siga siendo funcional, cuando detecta `github.io` utiliza `localStorage` del navegador. Esto es solo para demo. La arquitectura definitiva mantendrá los datos reales en el PC local mediante el servicio Node.
-
-## Correcciones v0.3.1
-- Agregado `build:pages` al `package.json`.
-- `vite.config.js` preparado para rutas relativas de GitHub Pages.
-- Workflow alineado con `npm run build:pages`.
-- Eliminado `cache: npm` para no depender de un `package-lock.json` previo.
-- Modo GitHub Pages funcional sin llamadas fallidas a `/api`.
-- Modo local mantiene Node + CSV.
+Settings → Pages → Source → GitHub Actions.
+Luego hacer push a main.

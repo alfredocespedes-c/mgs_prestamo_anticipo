@@ -1,7 +1,55 @@
 import React,{useEffect,useMemo,useState}from"react";
 const money=n=>new Intl.NumberFormat("es-CL",{style:"currency",currency:"CLP",maximumFractionDigits:0}).format(Number(n)||0);
 const today=new Date().toISOString().slice(0,10);
-async function api(url,options={}){const r=await fetch(url,options);const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d.error||"No se pudo completar la operación.");return d}
+const IS_GITHUB_PAGES = window.location.hostname.endsWith("github.io");
+const STORAGE_KEY = "sistema-prestamos-anticipo-v031";
+const PAGE_SEED = {
+  personas: [
+    {persona_id:"P001",rut:"13.066.599-3",nombre:"Paulina Acuña Campos",empresa:"MGS Repuestos",estado:"Activo",fecha_alta:"2026-08-01"},
+    {persona_id:"P002",rut:"",nombre:"Mauricio Alvear Alfaro",empresa:"MGS Repuestos",estado:"Activo",fecha_alta:"2026-08-01"},
+    {persona_id:"P003",rut:"",nombre:"Luis Alarcon Gutierrez",empresa:"MGS Repuestos",estado:"Activo",fecha_alta:"2026-08-01"},
+    {persona_id:"P004",rut:"",nombre:"Cesar Gonzalez Lopez",empresa:"Floma SPA",estado:"Activo",fecha_alta:"2026-08-01"}
+  ],
+  movimientos: [
+    {movimiento_id:"M001",persona_id:"P001",fecha:"2026-08-03",tipo:"Anticipo",concepto:"Anticipo sueldo",monto:"400000",medio_pago:"Transferencia",cuota_actual:"",cuotas_total:"",periodo_descuento:"2026-08",observacion:"",estado:"Vigente"},
+    {movimiento_id:"M002",persona_id:"P001",fecha:"2026-08-04",tipo:"Anticipo",concepto:"Anticipo sueldo ayuda",monto:"150000",medio_pago:"Transferencia",cuota_actual:"",cuotas_total:"",periodo_descuento:"2026-08",observacion:"Ayuda",estado:"Vigente"},
+    {movimiento_id:"M003",persona_id:"P001",fecha:"2026-08-11",tipo:"Prestamo",concepto:"Prestamo empresa",monto:"150000",medio_pago:"",cuota_actual:"22",cuotas_total:"28",periodo_descuento:"2026-08",observacion:"",estado:"Vigente"},
+    {movimiento_id:"M004",persona_id:"P001",fecha:"2026-08-17",tipo:"Descuento",concepto:"Seguro MetLife",monto:"16547",medio_pago:"",cuota_actual:"",cuotas_total:"",periodo_descuento:"2026-08",observacion:"",estado:"Vigente"},
+    {movimiento_id:"M005",persona_id:"P002",fecha:"2026-08-03",tipo:"Anticipo",concepto:"Anticipo sueldo",monto:"500000",medio_pago:"Transferencia",cuota_actual:"",cuotas_total:"",periodo_descuento:"2026-08",observacion:"",estado:"Vigente"},
+    {movimiento_id:"M006",persona_id:"P004",fecha:"2026-08-03",tipo:"Anticipo",concepto:"Anticipo sueldo",monto:"850000",medio_pago:"Transferencia",cuota_actual:"",cuotas_total:"",periodo_descuento:"2026-08",observacion:"",estado:"Vigente"}
+  ]
+};
+function getPageData(){
+  const current=localStorage.getItem(STORAGE_KEY);
+  if(current) return JSON.parse(current);
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(PAGE_SEED));
+  return JSON.parse(JSON.stringify(PAGE_SEED));
+}
+function savePageData(data){localStorage.setItem(STORAGE_KEY,JSON.stringify(data))}
+async function api(url,options={}){
+  if(!IS_GITHUB_PAGES){
+    const r=await fetch(url,options);const d=await r.json().catch(()=>({}));
+    if(!r.ok)throw new Error(d.error||"No se pudo completar la operación.");return d;
+  }
+  const data=getPageData();
+  if(url==="/api/bootstrap") return data;
+  if(url==="/api/personas"&&options.method==="POST"){
+    const body=JSON.parse(options.body||"{}");
+    const item={persona_id:"P"+Date.now(),rut:body.rut||"",nombre:body.nombre||"",empresa:body.empresa||"",estado:"Activo",fecha_alta:new Date().toISOString().slice(0,10)};
+    if(!item.nombre.trim()) throw new Error("El nombre es obligatorio.");
+    data.personas.push(item);savePageData(data);return item;
+  }
+  if(url==="/api/movimientos"&&options.method==="POST"){
+    const body=JSON.parse(options.body||"{}");
+    if(!body.persona_id) throw new Error("Debe seleccionar una persona.");
+    if(!body.concepto?.trim()) throw new Error("El concepto es obligatorio.");
+    if(Number(body.monto)<=0) throw new Error("El monto debe ser mayor que cero.");
+    const fecha=body.fecha||new Date().toISOString().slice(0,10);
+    const item={movimiento_id:"M"+Date.now(),persona_id:body.persona_id,fecha,tipo:body.tipo||"Anticipo",concepto:body.concepto,monto:String(Number(body.monto)),medio_pago:body.medio_pago||"",cuota_actual:body.cuota_actual||"",cuotas_total:body.cuotas_total||"",periodo_descuento:fecha.slice(0,7),observacion:body.observacion||"",estado:"Vigente"};
+    data.movimientos.push(item);savePageData(data);return item;
+  }
+  throw new Error("Operación no disponible en modo GitHub Pages.");
+}
 const typeClass=t=>t==="Anticipo"?"advance":t==="Prestamo"?"loan":"discount";
 const typeLabel=t=>t==="Prestamo"?"Préstamo":t;
 export default function App(){

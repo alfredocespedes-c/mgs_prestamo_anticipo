@@ -1,4 +1,4 @@
-# Sistema Préstamos/Anticipo v0.5.0
+# Sistema Préstamos/Anticipo v0.5.1
 
 ## Arquitectura
 - React + Vite
@@ -67,3 +67,8 @@ git push
 ## Nota
 GitHub Pages no ejecuta Node.js. En Pages la demo usa localStorage.
 En la versión local, Node.js lee y escribe los CSV reales.
+
+## Fix v0.5.1
+- Corregido el cierre JSX al final de `src/App.jsx`.
+- `Modal` y `Field` fueron reescritos con JSX multilínea explícito.
+- Se mantiene `build:pages` para GitHub Actions.

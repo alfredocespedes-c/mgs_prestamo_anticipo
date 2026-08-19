@@ -239,7 +239,7 @@ export default function App(){
         <button className={view==="movimiento"?"active":""} onClick={()=>setView("movimiento")}>Nuevo movimiento</button>
         <button className={view==="admin"?"active":""} onClick={()=>setView("admin")}>Administración</button>
       </nav>
-      <div className="version-mark">v0.5.0</div>
+      <div className="version-mark">v0.5.1</div>
     </header>
 
     <main>
@@ -564,5 +564,33 @@ function DetailModal({person,data,filters,close}){
   </div>
 }
 
-function Modal({title,close,children}){return <div className="modal-backdrop" onMouseDown={e=>{if(e.target===e.currentTarget)close()}}><div className="modal small"><div className="detail-title"><h2>{title}</h2><button onClick={close}>×</button></div><div className="modal-body">{children}</div></div>}
-function Field({label,children}){return <div className="form-row"><label>{label}</label>{children}</div>}
+
+function Modal({title,close,children}) {
+  return (
+    <div
+      className="modal-backdrop"
+      onMouseDown={(e) => {
+        if (e.target === e.currentTarget) {
+          close();
+        }
+      }}
+    >
+      <div className="modal small">
+        <div className="detail-title">
+          <h2>{title}</h2>
+          <button type="button" onClick={close}>×</button>
+        </div>
+        <div className="modal-body">{children}</div>
+      </div>
+    </div>
+  );
+}
+
+function Field({label,children}) {
+  return (
+    <div className="form-row">
+      <label>{label}</label>
+      {children}
+    </div>
+  );
+}

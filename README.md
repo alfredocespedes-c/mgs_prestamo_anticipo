@@ -1,60 +1,69 @@
-# Sistema Préstamos/Anticipo v0.4
+# Sistema Préstamos/Anticipo v0.5.0
 
-## Cambios principales
-- Página inicial: Personal.
-- Navegación: Personal → Nuevo movimiento → Administración.
-- Autocompletado de persona al registrar movimiento.
-  - Escribir filtra la lista.
-  - Flecha arriba/abajo navega.
-  - Enter selecciona.
-  - Escape cierra.
-- Flujo de teclado optimizado con Tab en el formulario.
-- Reportes XLSX:
-  - Con persona filtrada: detalle individual.
-  - Sin persona: hoja Resumen + una hoja de detalle por cada persona del resultado.
-  - Respeta mes y tipo de movimiento filtrados.
-- Anticipo, Préstamo y Descuento mantienen colores distintos.
-- GitHub Pages: usa localStorage.
-- Local: usa Node.js + CSV.
+## Arquitectura
+- React + Vite
+- Node.js + Express local
+- CSV locales
+- GitHub Pages compatible mediante localStorage
+- Sin PostgreSQL/MySQL
 
-## Por qué XLSX y no CSV para el reporte
-CSV solo puede representar una tabla y no soporta múltiples hojas. XLSX permite crear una hoja Resumen y una hoja independiente por persona.
+## Modelo
+- personas.csv
+- movimientos.csv
+- prestamos.csv
+- auditoria.csv
 
-## Ejecutar local
+## Funcionalidades v0.5.0
+### Personal
+- Página inicial.
+- Filtro por mes, persona y tipo.
+- Total mensual separado de deuda pendiente de préstamos.
+- Detalle por persona.
+- Generar Excel.
+- Imprimir PDF global o individual.
+- PDF individual con préstamos vigentes y saldo pendiente.
+
+### Nuevo movimiento
+Dos modalidades:
+1. Por persona
+   - Anticipo
+   - Descuento
+   - Préstamo nuevo
+   - Cuota préstamo
+2. Por tipo de movimiento
+   - Carga masiva por concepto (ej. Casino)
+   - Monto por persona
+   - Total y cantidad antes de guardar
+
+### Administración
+- Crear persona.
+- Editar persona.
+- Desactivar persona.
+- Si tiene crédito activo con saldo pendiente, la desactivación se bloquea y muestra el detalle del crédito.
+- Si no tiene crédito pendiente, solicita confirmación y desactiva sin borrar historial.
+
+## Ejecutar localmente
 ```bash
 npm install
 npm run dev
 ```
 
-Abrir http://127.0.0.1:5173
+Abrir:
+http://127.0.0.1:5173
+
+API:
+http://127.0.0.1:3001
 
 ## GitHub Pages
 Settings → Pages → Source → GitHub Actions.
-Luego hacer push a main.
 
-## Fix v0.4.2 — búsqueda de persona
-- La lista NO se muestra al cargar la vista.
-- La lista NO se muestra solo por hacer foco en el campo.
-- Solo se renderiza cuando `query.trim().length >= 1`.
-- Se eliminó el autofoco inicial del campo Persona.
-- Se reforzó la prevención del autocompletado propio del navegador.
-- Si se borra todo el texto, la lista desaparece inmediatamente.
+Luego:
+```bash
+git add .
+git commit -m "v0.5.0"
+git push
+```
 
-## Fix v0.4.3 — desplegable Persona
-Se agregó una segunda condición independiente (`hasTyped`).
-
-La lista solo se crea cuando:
-1. el usuario realmente escribió en el campo; y
-2. existe al menos 1 carácter no vacío.
-
-Al cargar Nuevo movimiento:
-- `query = ""`
-- `hasTyped = false`
-- no existe lista en el DOM.
-
-Al seleccionar una persona:
-- se completa el nombre;
-- `hasTyped` vuelve a `false`;
-- la lista se cierra.
-
-La interfaz muestra `v0.4.3` debajo de la navegación para comprobar que GitHub Pages publicó la versión correcta.
+## Nota
+GitHub Pages no ejecuta Node.js. En Pages la demo usa localStorage.
+En la versión local, Node.js lee y escribe los CSV reales.

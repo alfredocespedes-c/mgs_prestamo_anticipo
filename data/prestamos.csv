@@ -1,0 +1,2 @@
+prestamo_id;persona_id;fecha_inicio;concepto;monto_original;numero_cuotas;valor_cuota;cuotas_pagadas;saldo_pendiente;primer_periodo;estado;observacion;creado_en;actualizado_en
+PR001;P001;2026-05-01;Préstamo empresa;1200000;12;100000;4;800000;2026-05;Activo;;2026-05-01T09:00:00;2026-08-31T09:00:00

@@ -1,7 +1,7 @@
-movimiento_id;persona_id;fecha;tipo;concepto;monto;medio_pago;cuota_actual;cuotas_total;periodo_descuento;observacion;estado
-M001;P001;2026-08-03;Anticipo;Anticipo sueldo;400000;Transferencia;;;2026-08;;Vigente
-M002;P001;2026-08-04;Anticipo;Anticipo sueldo ayuda;150000;Transferencia;;;2026-08;Ayuda;Vigente
-M003;P001;2026-08-11;Prestamo;Prestamo empresa;150000;;22;28;2026-08;;Vigente
-M004;P001;2026-08-17;Descuento;Seguro MetLife;16547;;;;2026-08;;Vigente
-M005;P002;2026-08-12;Anticipo;Anticipo sueldo;530000;Transferencia;;;2026-08;;Vigente
-M006;P004;2026-08-03;Anticipo;Anticipo sueldo;850000;Transferencia;;;2026-08;;Vigente
+movimiento_id;persona_id;fecha;periodo;tipo;concepto;monto;medio_pago;prestamo_id;observacion;estado;creado_en
+M001;P001;2026-08-03;2026-08;Anticipo;Anticipo sueldo;400000;Transferencia;;;Vigente;2026-08-03T10:00:00
+M002;P001;2026-08-04;2026-08;Anticipo;Anticipo sueldo ayuda;150000;Transferencia;;Ayuda;Vigente;2026-08-04T09:00:00
+M003;P001;2026-08-17;2026-08;Descuento;Seguro MetLife;16547;;;;Vigente;2026-08-17T09:00:00
+M004;P002;2026-08-12;2026-08;Anticipo;Anticipo sueldo;530000;Transferencia;;;Vigente;2026-08-12T09:00:00
+M005;P004;2026-08-03;2026-08;Anticipo;Anticipo sueldo;850000;Transferencia;;;Vigente;2026-08-03T09:00:00
+M006;P001;2026-08-31;2026-08;CuotaPrestamo;Préstamo empresa cuota 4/12;100000;;PR001;;Vigente;2026-08-31T09:00:00
